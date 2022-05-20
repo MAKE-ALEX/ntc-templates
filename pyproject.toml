@@ -6,10 +6,10 @@ build-backend = "poetry.core.masonry.api"
 name = "ntc_templates"
 version = "3.0.0"
 description = "TextFSM Templates for Network Devices, and Python wrapper for TextFSM's CliTable."
-authors = ["Network to Code <info@networktocode.com>"]
+authors = ["Network to Code <info@networktocode.com>", "Elinpf"]
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/networktocode/ntc-templates"
+repository = "https://github.com/Elinpf/ntc-templates"
 
 [tool.poetry.dependencies]
 python = "^3.6"
