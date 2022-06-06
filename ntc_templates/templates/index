@@ -453,6 +453,7 @@ hp_procurve_show_trunks.textfsm, .*, hp_procurve, sh[[ow]] tr[[unks]]
 hp_procurve_show_vlans.textfsm, .*, hp_procurve, sh[[ow]] vl[[ans]]
 hp_procurve_show_arp.textfsm, .*, hp_procurve, sh[[ow]] ar[[p]]
 
+huawei_vrp_display_ip_routing-table_statistics.textfsm, .*, huawei_vrp, dis[[play]] ip rout[[ing-table]] stat[[istics]]
 huawei_vrp_display_device_manufacture-info.textfsm, .*, huawei_vrp, di[[splay]] dev[[ice]] man[[ufacture-info]]
 huawei_vrp_display_interface_description.textfsm, .*, huawei_vrp, dis[[play]] inter[[face]] des[[cription]]
 huawei_vrp_display_ip_interface_brief.textfsm, .*, huawei_vrp, dis[[play]] ip int[[erface]] bri[[ef]]
