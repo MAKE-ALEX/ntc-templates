@@ -466,6 +466,7 @@ huawei_vrp_display_temperature.textfsm, .*, huawei_vrp, dis[[play]] tem[[peratur
 huawei_vrp_display_cpu-usage.textfsm, .*, huawei_vrp, dis[[play]] cpu-u[[sage]]
 huawei_vrp_display_port_vlan.textfsm, .*, huawei_vrp, dis[[play]] port vl[[an]]
 huawei_vrp_display_version.textfsm, .*, huawei_vrp, dis[[play]] ver[[sion]]
+huawei_vrp_display_clock.textfsm, .*, huawei_vrp, dis[[play]] clo[[ck]]
 huawei_vrp_display_power.textfsm, .*, huawei_vrp, dis[[play]] pow[[er]]
 huawei_vrp_display_esn.textfsm, .*, huawei_vrp, dis[[play]] esn
 
