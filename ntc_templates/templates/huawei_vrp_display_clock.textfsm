@@ -6,6 +6,6 @@ Value MONTH (\d+)
 Value DAY (\d+)
 
 Start
-  ^${YEAR}-${MONTH}-${DAY} ${TIME}+
+  ^${YEAR}-${MONTH}-${DAY}\s+${TIME}+
   ^${DAYWEEK}$$
-  ^Time Zone\(${TIMEZONE}\)
+  ^Time\s+Zone\(${TIMEZONE}\)
