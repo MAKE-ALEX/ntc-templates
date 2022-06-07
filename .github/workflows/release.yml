@@ -1,15 +1,15 @@
 name: Upload Python Package
 
 on:
-push:
-  tags:
-    - 'v*'
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
     runs-on: ubuntu-latest
 
-  steps:
+    steps:
     - uses: actions/checkout@v2
     - name: Setup Python
       uses: actions/setup-python@v2
