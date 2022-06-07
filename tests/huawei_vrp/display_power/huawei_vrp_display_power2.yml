@@ -1,0 +1,18 @@
+---
+parsed_sample:
+  - mode: "AC"
+    id: "PWR1"
+    present: "Present"
+    state: "Supply"
+  - mode: "AC"
+    id: "PWR2"
+    present: "Present"
+    state: "Supply"
+  - mode: "AC"
+    id: "PWR3"
+    present: "Present"
+    state: "Supply"
+  - mode: "AC"
+    id: "PWR4"
+    present: "Present"
+    state: "Supply"
