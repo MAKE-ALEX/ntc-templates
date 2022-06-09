@@ -1,5 +1,16 @@
-[![Build Status](https://travis-ci.org/networktocode/ntc-templates.svg?branch=master)](https://travis-ci.org/networktocode/ntc-templates)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+说明
+===
+
+本仓库为主仓的分支，主要提供中国大陆常用网络设备textFSM。
+
+本仓库的安装方法
+
+```
+pip install ntc_templates_elinpf
+```
+
+以下内容为主仓库`README`
+
 
 NTC TEMPLATES
 =============
