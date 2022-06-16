@@ -49,6 +49,7 @@ OS_CHOICES = [
     "ovs_linux",
     "paloalto_panos",
     "quanta_mesh",
+    "ruijie_os",
     "ruckus_fastiron",
     "ubiquiti_edgerouter",
     "ubiquiti_edgeswitch",
