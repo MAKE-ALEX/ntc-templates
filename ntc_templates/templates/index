@@ -258,7 +258,7 @@ cisco_ios_show_vrrp_brief.textfsm, .*, cisco_ios, sh[[ow]] vrr[[p]] b[[rief]]
 cisco_ios_show_vtp_status.textfsm, .*, cisco_ios, sh[[ow]] vtp stat[[us]]
 cisco_ios_show_adjacency.textfsm, .*, cisco_ios, sh[[ow]] ad[[jacency]]
 cisco_ios_show_dot1x_all.textfsm, .*, cisco_ios, sh[[ow]] dot1x a[[ll]]
-cisco_ios_show_inventory.textfsm, .*, cisco_ios, sh[[ow]] inven[[tory]]
+cisco_ios_show_inventory.textfsm, .*, cisco_ios, sh[[ow]] inv[[entory]]
 cisco_ios_show_ip_mroute.textfsm, .*, cisco_ios, sh[[ow]] ip mr[[oute]]
 cisco_ios_show_route-map.textfsm, .*, cisco_ios, sh[[ow]] route-m[[ap]]
 cisco_ios_show_snmp_user.textfsm, .*, cisco_ios, sh[[ow]] sn[[mp]] u[[ser]]
@@ -453,12 +453,22 @@ hp_procurve_show_trunks.textfsm, .*, hp_procurve, sh[[ow]] tr[[unks]]
 hp_procurve_show_vlans.textfsm, .*, hp_procurve, sh[[ow]] vl[[ans]]
 hp_procurve_show_arp.textfsm, .*, hp_procurve, sh[[ow]] ar[[p]]
 
+huawei_vrp_display_ip_routing-table_statistics.textfsm, .*, huawei_vrp, dis[[play]] ip rout[[ing-table]] stat[[istics]]
+huawei_vrp_display_device_manufacture-info.textfsm, .*, huawei_vrp, di[[splay]] dev[[ice]] man[[ufacture-info]]
 huawei_vrp_display_interface_description.textfsm, .*, huawei_vrp, dis[[play]] inter[[face]] des[[cription]]
+huawei_vrp_display_ip_interface_brief.textfsm, .*, huawei_vrp, dis[[play]] ip int[[erface]] bri[[ef]]
 huawei_vrp_display_interface_brief.textfsm, .*, huawei_vrp, dis[[play]] inter[[face]] br[[ief]]
+huawei_vrp_display_ospf_peer_brief.textfsm, .*, huawei_vrp, dis[[play]] ospf peer bri[[ef]]
 huawei_vrp_display_lldp_neighbor.textfsm, .*, huawei_vrp, dis[[play]] lldp nei[[ghbor]]
+huawei_vrp_display_elabel_brief.textfsm, .*, huawei_vrp, dis[[play]] el[[abel]] br[[ief]]
+huawei_vrp_display_memory-usage.textfsm, .*, huawei_vrp, dis[[play]] mem[[ory-usage]]
 huawei_vrp_display_temperature.textfsm, .*, huawei_vrp, dis[[play]] tem[[perature]]
+huawei_vrp_display_cpu-usage.textfsm, .*, huawei_vrp, dis[[play]] cpu-u[[sage]]
 huawei_vrp_display_port_vlan.textfsm, .*, huawei_vrp, dis[[play]] port vl[[an]]
 huawei_vrp_display_version.textfsm, .*, huawei_vrp, dis[[play]] ver[[sion]]
+huawei_vrp_display_clock.textfsm, .*, huawei_vrp, dis[[play]] clo[[ck]]
+huawei_vrp_display_power.textfsm, .*, huawei_vrp, dis[[play]] pow[[er]]
+huawei_vrp_display_esn.textfsm, .*, huawei_vrp, dis[[play]] esn
 
 juniper_junos_show_chassis_cluster_interfaces.textfsm, .*, juniper_junos, sh[[ow]] ch[[assis]] c[[luster]] i[[nterface]]
 juniper_junos_show_ethernet-switching_table.textfsm, .*, juniper_junos, sh[[ow]] et[[hernet-switching]] t[[able]]
@@ -478,6 +488,9 @@ juniper_junos_show_vlans.textfsm, .*, juniper_junos, sh[[ow]] vl[[ans]]
 juniper_screenos_get_route.textfsm, .*, juniper_screenos, get route
 
 linux_arp_-a.textfsm, .*, linux, arp -a
+
+maipu_mypower_show_system_chassis.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] cha[[ssis]]
+maipu_mypower_show_version.textfsm, .*, maipu_mypower, sh[[ow]] ver[[sion]]
 
 mikrotik_routeros_ip_firewall_filter_print_all_without-paging.textfsm, .*, mikrotik_routeros, [[/]]ip(v6)? firewall filter print all without-paging
 mikrotik_routeros_ip_dhcp-server_lease_print_without-paging.textfsm, .*, mikrotik_routeros, [[/]]ip dhcp-server lease print without-paging
@@ -501,6 +514,8 @@ paloalto_panos_show_system_info.textfsm, .*, paloalto_panos, sh[[ow]] sys[[tem]]
 paloalto_panos_show_jobs_all.textfsm, .*, paloalto_panos, sh[[ow]] jo[[bs]] all
 paloalto_panos_show_arp_all.textfsm, .*, paloalto_panos, sh[[ow]] ar[[p]] all
 paloalto_panos_show_mac_all.textfsm, .*, paloalto_panos, sh[[ow]] mac all
+
+ruijie_os_show_version.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]]
 
 ruckus_fastiron_show_interfaces_brief.textfsm, .*, ruckus_fastiron, sh[[ow]] int[[erfaces]] b[[rief]]
 ruckus_fastiron_show_mac-address.textfsm, .*, ruckus_fastiron, sh[[ow]] mac[[-address]]
