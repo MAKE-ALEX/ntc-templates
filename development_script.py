@@ -1,18 +1,14 @@
-#!/usr/bin/env python
+import numbers
 import os
 import re
-import glob
-import numbers
-import argparse
+from argparse import ArgumentParser
+from typing import Dict, List, Tuple
 
+from rich import print
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import DoubleQuotedScalarString as DQ
-from ntc_templates.parse import parse_output
+from textfsm import TextFSM
 
-
-FILE_PATH = os.path.abspath(__file__)
-FILE_DIR = os.path.dirname(FILE_PATH)
-TEST_DIR = "{0}/tests".format(FILE_DIR)
 YAML_OBJECT = YAML()
 YAML_OBJECT.explicit_start = True
 YAML_OBJECT.indent(sequence=4, offset=2)
@@ -43,7 +39,8 @@ def ensure_spacing_for_multiline_comment(remark):
     if not remarks:
         remarks = (("", remark),)
     # Example remarks: [('comment \n#', '      comment2 '), ('\n  #', 'comment3 # 9')]
-    remark_formatted = "".join([entry[0] + " " + entry[1].strip() for entry in remarks])
+    remark_formatted = "".join(
+        [entry[0] + " " + entry[1].strip() for entry in remarks])
     return remark_formatted
 
 
@@ -172,7 +169,8 @@ def ensure_space_comments(comments):
         ])
         >>>
     """
-    comment_objects = (comment for comment_list in comments for comment in comment_list)
+    comment_objects = (
+        comment for comment_list in comments for comment in comment_list)
     for comment in comment_objects:
         # Some comments are nested inside an additional list
         if not isinstance(comment, list):
@@ -275,56 +273,6 @@ def update_yaml_comments(yaml_object):
             update_yaml_comments(entry)
 
 
-def transform_file(filepath):
-    """
-    Loads YAML file and formats to adhere to yamllint config.
-
-    Args:
-        filepath (str): The full path to a YAML file.
-
-    Returns:
-        None: File I/O is performed to ensure YAML file adheres to yamllint config.
-
-    Example:
-        >>> filepath = "tests/cisco_ios/show_version/cisco_ios_show_version.yml"
-        >>> transform_parsed(filepath)
-        >>>
-    """
-    with open(filepath, encoding="utf-8") as parsed_file:
-        parsed_object = YAML_OBJECT.load(parsed_file)
-
-    ensure_yaml_standards(parsed_object, filepath)
-
-
-def transform_glob(dirpath):
-    """
-    Globs for YAML files and formats to adhere to yamllint config.
-
-    Every file in ``dirpath`` ending in ``.yml`` will be formatted according to
-    yamllint config. Since this is using glob, the directory string passed in can
-    also include glob syntax (see ``Example``)
-
-    Args:
-        dirpath (str): The path to search for files with ``.yml`` extension.
-
-    Returns:
-        None: File I/O is performed to ensure YAML files adhere to yamllint config.
-
-    Example:
-        >>> dirpath = "tests/*/*"
-        >>> transform_parsed(dirpath)
-        # Each filename is printed to the terminal
-        >>>
-    """
-    # This commented out code was used for mass renaming of files;
-    # it is probably not needed anymore
-    # for file in glob.iglob("{0}/*.parsed".format(dirpath)):
-    #     os.rename(file, file.replace(file[-6:], "yml"))
-    for file in glob.iglob("{0}/*.yml".format(dirpath)):
-        print(file)
-        transform_file(file)
-
-
 def ensure_yaml_standards(parsed_object, output_path):
     """
     Ensures YAML files adhere to yamllint config as defined in this project.
@@ -355,138 +303,160 @@ def ensure_yaml_standards(parsed_object, output_path):
         YAML_OBJECT.dump(parsed_object, parsed_file)
 
 
-def parse_test_filepath(filepath):
-    """
-    Parses fullpath of test file to obtain platform, command, and filename info.
+def _textfsm_reslut_to_dict(header: list, reslut: list) -> List[Dict[str, str]]:
+    """将 TextFSM 的结果与header结合转化为dict"""
+    objs = []
+    for row in reslut:
+        temp_dict = {}
+        for index, element in enumerate(row):
+            temp_dict[header[index].lower()] = element
+        objs.append(temp_dict)
 
-    Args:
-        filepath (str): The path to a test file from platform directory or earlier.
-
-    Returns:
-        tuple: Strings of platform, command, and the filename without the extension.
-
-    Example:
-        >>> filepath = "tests/cisco_ios/show_version/cisco_ios_show_version.raw"
-        >>> platform, command, filename = parse_test_filepath(filepath)
-        >>> print(platform)
-        cisco_ios
-        >>> print(command)
-        show version
-        >>> print(filename)
-        cisco_ios_show_version
-        >>>
-    """
-    command_dir, filename = os.path.split(filepath)
-    platform_dir, command = os.path.split(command_dir)
-    test_dir, platform = os.path.split(platform_dir)
-
-    command_without_underscores = command.replace("_", " ")
-    filename_without_extension, extension = filename.rsplit(".", 1)
-
-    return platform, command_without_underscores, filename_without_extension
+    return objs
 
 
-def build_parsed_data_from_output(filepath, test_dir=TEST_DIR):
-    """
-    Generates a YAML file from the file containing the command output.
+def get_test_files(vender_os: str, command: str, index: int) -> Tuple[str, str]:
+    """获取测试文件路径"""
+    base_name = vendor_os + '_' + command.replace(' ', '_')
 
-    The command output should be stored in a file in the appropriate directory;
-    for example, ``tests/cisco_ios/show_version/cisco_ios_show_version.raw``
-    This uses ``lib.ntc_templates.parse.parse_output``, so the template must
-    be in the ``templates/`` directory, and ``templates/index`` must be updated
-    with the correct entry for the template.
+    raw_base_name = base_name + str(index) if index > 1 else base_name
 
-    Args:
-        filepath (str): The path to the file containing sample command output.
-        test_dir (str): The root directory to story the resulting YAML file.
-
-    Returns
-        None: File I/O is performed to generate a YAML file pased on command output.
-
-    Example:
-        >>> root_dir = "tests/cisco_ios/show_version"
-        >>> os.listdir(root_dir)
-        ['cisco_ios_show_version.raw']
-        >>> filepath = "tests/cisco_ios/show_version/cisco_ios_show_version.raw"
-        >>> build_parsed_data_from_output(filepath)
-        >>> os.listdir(root_dir)
-        ['cisco_ios_show_version.raw', 'cisco_ios_show_version.yml']
-        >>>
-    """
-    platform, command, filename = parse_test_filepath(filepath)
-    with open(filepath, encoding="utf-8") as output_file:
-        output_data = output_file.read()
-
-    structured_data = parse_output(platform, command, output_data)
-
-    command_with_underscores = command.replace(" ", "_")
-    yaml_file = "{0}/{1}/{2}/{3}.yml".format(
-        test_dir, platform, command_with_underscores, filename
-    )
-    ensure_yaml_standards({"parsed_sample": structured_data}, yaml_file)
+    raw_file = os.path.join('tests', vendor_os,
+                            command.replace(' ', '_'), raw_base_name + '.raw')
+    template_file = os.path.join('ntc_templates', 'templates', base_name + '.textfsm')
+    return (raw_file, template_file)
 
 
-def build_parsed_data_from_dir(dirpath, test_dir=TEST_DIR):
-    """
-    Globs for files ending in ``.raw`` and generates YAML files based on TextFSM ouptut.
+def main(vendor_os: str, command: str, index: int) -> List[Dict]:
 
-    Every file in ``dirpath`` ending in ``.raw`` will be parsed with TextFSM and written
-    to a YAML file following the yamllint config standards. Since this is using glob, the
-    directory string passed in can also include glob syntax.
+    raw_file, template_file = get_test_files(vendor_os, command, index)
 
-    Args:
-        dirpath (str): The path to search for files with ``.raw`` extension.
+    template = TextFSM(open(template_file))
+    stream = open(raw_file, 'r').read()
 
-    Returns:
-        None: File I/O is performed to ensure YAML files exist for each test output file.
+    res = template.ParseText(stream)
 
-    Example:
-        >>> dirpath = "tests/cisco_ios/show_mac-address-table"
-        >>> build_parsed_data_from_dir(dirpath)
-        # Each filename is printed to the terminal
-        >>>
-    """
-    for file in glob.iglob("{0}/*.raw".format(dirpath)):
-        print(file)
-        build_parsed_data_from_output(file, test_dir)
+    output = _textfsm_reslut_to_dict(template.header, res)
+    print(output)
+    return output
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Ensures YAML files match project standards"
-    )
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("-y", "--yaml_file", type=str, help="The path to a YAML file.")
-    group.add_argument(
-        "-yd",
-        "--yaml_dir",
-        type=str,
-        help='The directory path to look for all files ending in ".yml"',
-    )
-    group.add_argument(
-        "-c",
-        "--command_file",
-        type=str,
-        help="The path to the file containing command output.",
-    )
-    group.add_argument(
-        "-cd",
-        "--command_dir",
-        type=str,
-        help='The directory path to look for all files ending in ".raw"',
-    )
+def generate_file(vendor_os: str, command: str, index: int):
+    raw_file, template_file = get_test_files(vendor_os, command, index)
+    if not os.path.exists(raw_file):
+        # 创建raw文件夹
+        if not os.path.exists(os.path.dirname(raw_file)):
+            os.mkdir(os.path.dirname(raw_file))
+        open(raw_file, 'w').write('')
 
-    args = parser.parse_args()
-    yaml_file = args.yaml_file
-    yaml_dir = args.yaml_dir
-    command_file = args.command_file
-    command_dir = args.command_dir
+    if not os.path.exists(template_file):
+        open(template_file, 'w').write('')
 
-    if yaml_file is not None:
-        transform_file(yaml_file)
-    elif yaml_dir is not None:
-        transform_glob(yaml_dir)
-    elif command_file is not None:
-        build_parsed_data_from_output(command_file)
-    else:
-        build_parsed_data_from_dir(command_dir)
+
+def reg_blank_sub(file: str) -> str:
+    """对文件进行空格替换"""
+    with open(file, 'r') as f:
+        text = f.read()
+
+    final_text = []
+    for line in text.splitlines():
+        if not line.startswith('  ^'):
+            final_text.append(line)
+            continue
+
+        line = line[2:]
+        end = ''
+        match_end = re.search(r'( -> .*)$', line)
+        if match_end:
+            end = match_end.group(1)
+            line = line[:-len(end)]
+
+        tmp = ' '.join(line.split())
+        tmp = tmp.replace(' ', '\s+')
+        tmp = f"  {tmp}{end}"
+        final_text.append(tmp)
+
+    with open(file, 'w') as f:
+        f.write('\n'.join(final_text))
+
+
+def print_index_file_command(vendor_os: str, command: str, index: int, short: str):
+    textfsm_file = get_test_files(vendor_os, command, index)[1]
+
+    res_cmd = []
+    cmd_e = command.split()
+    for index, short_cmd_e in enumerate(short.split()):
+        last = cmd_e[index].replace(short_cmd_e, '')
+        if last == '':
+            res_cmd.append(short_cmd_e)
+        else:
+            res_cmd.append(f"{short_cmd_e}\[\[{last}]]")
+
+    res_cmd = ' '.join(res_cmd)
+    print()
+    print(f"{os.path.basename(textfsm_file)}, .*, {vendor_os}, {res_cmd}")
+    print()
+
+
+def parse_args():
+    parser = ArgumentParser(description='自动生成测试文件, 默认为测试文件')
+    parser.add_argument('-v', '--vendor', help='设备厂商', required=False)
+    parser.add_argument('-c', '--command', help='设备命令', required=False)
+    parser.add_argument('-g', '--generate', help='生成测试文件', action='store_true')
+    parser.add_argument(
+        '-i', '--index', help='多raw文件的索引，从2开始', type=int, required=False)
+    parser.add_argument(
+        '-b', '--blank', help='对textfsm文件进行空格替换', action='store_true')
+    parser.add_argument('-t', '--test', help='测试文件', action='store_true')
+    parser.add_argument('-y', '--yml', help='生成yml文件', action='store_true')
+    parser.add_argument(
+        '-s', '--short', help='通过短命令生成index文件需要的条目', action='store_true')
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+
+    args = parse_args()
+
+    index = args.index or 1
+
+    if args.vendor:
+        vendor_os = args.vendor
+    if args.command:
+        command = args.command
+
+    if args.generate:
+        generate_file(vendor_os, command, index)
+        exit()
+
+    if args.blank:
+        textfsm_file = get_test_files(vendor_os, command, index)[1]
+        reg_blank_sub(textfsm_file)
+        exit()
+
+    if args.yml:
+        raw_file = get_test_files(vendor_os, command, index)[0]
+        raw_file_dir = os.path.dirname(raw_file)
+        raw_file_count = 0
+        for file in os.listdir(raw_file_dir):
+            if file.endswith('.yml'):
+                os.remove(os.path.join(raw_file_dir, file))
+
+            if file.endswith('.raw'):
+                raw_file_count += 1
+        for index in range(1, raw_file_count + 1):
+            raw_file = get_test_files(vendor_os, command, index)[0]
+            ret = main(vendor_os, command, index)
+            yml_file = raw_file.replace('raw', 'yml')
+            ensure_yaml_standards({'parsed_sample': ret}, yml_file)
+            print("generate yml file:", yml_file)
+
+        print(f"generate yml {index} file done")
+        exit()
+
+    if args.short:
+        short = input('input shortest cmd: ')
+        print_index_file_command(vendor_os, command, index, short)
+        exit()
+
+    main(vendor_os, command, index)
