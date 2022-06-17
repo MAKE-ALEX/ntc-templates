@@ -9,7 +9,74 @@
 pip install ntc_templates_elinpf
 ```
 
+## 关于开发textfsm
+
+我重写了原有的`development_scripts.py`。使它更符合个人的开发习惯。
+
+```txt
+usage: development_script.py [-h] [-v VENDOR] [-c COMMAND] [-g] [-i INDEX] [-b] [-t] [-y] [-s]
+
+自动生成textfsm和所需raw文件, 方便对textfsm进行测试
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v VENDOR, --vendor VENDOR
+                        设备厂商
+  -c COMMAND, --command COMMAND
+                        设备命令
+  -g, --generate        生成测试文件
+  -i INDEX, --index INDEX
+                        多raw文件的索引，从2开始
+  -b, --blank           对textfsm文件进行空格替换
+  -t, --test            对textfsm进行测试
+  -y, --yml             生成yml文件
+  -s, --short           通过短命令生成index文件需要的条目
+```
+
+### 举例
+
+假设以华为厂家 `huawei_vrp` 路由交换软件平台的`display version`命令进行开发测试。
+
+1. 首先创建所需要的模板文件`textfsm`和作为测试用到的解析文件`raw`
+
+```bash
+python ./development_script.py -v 'huawei_vrp' -c 'display version' -g
+```
+
+2. 编写`textfsm`和测试时使用的命令输出, 此时需要对`textfsm` 的Rule中的空格替换成`\s+`防止意外
+
+```bash
+python ./development_script.py -v 'huawei_vrp' -c 'display version' -b
+```
+
+3. 如果有多个测试用例，可以使用`-i` 再次进行创建`raw`文件
+
+```bash
+python ./development_script.py -v 'huawei_vrp' -c 'display version' -i 2 -g
+```
+
+4. 对编写的内容进行测试
+
+```bash
+python ./development_script.py -v 'huawei_vrp' -c 'display version' -t
+```
+
+5. 对于多个测试用例， 也可以使用`-i`进行单独测试
+
+```bash
+python ./development_script.py -v 'huawei_vrp' -c 'display version' -i 2 -t
+```
+
+6. 测试结果符合预期后，生成全部`yml`文件
+
+```bash
+python ./development_script.py -v 'huawei_vrp' -c 'display version' -y
+```
+
+
 以下内容为主仓库`README`
+
+
 
 
 NTC TEMPLATES
