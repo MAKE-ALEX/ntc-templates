@@ -399,7 +399,7 @@ def print_index_file_command(vendor_os: str, command: str, index: int, short: st
 
 
 def parse_args():
-    parser = ArgumentParser(description='自动生成测试文件, 默认为测试文件')
+    parser = ArgumentParser(description='自动生成textfsm和所需raw文件, 方便对textfsm进行测试')
     parser.add_argument('-v', '--vendor', help='设备厂商', required=False)
     parser.add_argument('-c', '--command', help='设备命令', required=False)
     parser.add_argument('-g', '--generate', help='生成测试文件', action='store_true')
@@ -407,7 +407,7 @@ def parse_args():
         '-i', '--index', help='多raw文件的索引，从2开始', type=int, required=False)
     parser.add_argument(
         '-b', '--blank', help='对textfsm文件进行空格替换', action='store_true')
-    parser.add_argument('-t', '--test', help='测试文件', action='store_true')
+    parser.add_argument('-t', '--test', help='对textfsm进行测试', action='store_true')
     parser.add_argument('-y', '--yml', help='生成yml文件', action='store_true')
     parser.add_argument(
         '-s', '--short', help='通过短命令生成index文件需要的条目', action='store_true')
