@@ -4,7 +4,7 @@ Value ACTION (\w+)
 Value PROTOCOL ([^any][\w+\d+]+)
 Value SOURCE (host\s\d+\.\d+\.\d+\.\d+|any|\d+\.\d+\.\d+\.\d+/\d+)
 Value PORT_MODIFIER (eq|gt|lt|neq|range)
-Value PORT_RANGE ([(\S+\s\S+)]+)
+Value PORT_RANGE ([\S\s]+)
 Value DESTINATION (host\s\d+\.\d+\.\d+\.\d+|any|\d+\.\d+\.\d+\.\d+/\d+) 
 Value MODIFIER (.*)
 
