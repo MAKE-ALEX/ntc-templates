@@ -39,8 +39,7 @@ def ensure_spacing_for_multiline_comment(remark):
     if not remarks:
         remarks = (("", remark),)
     # Example remarks: [('comment \n#', '      comment2 '), ('\n  #', 'comment3 # 9')]
-    remark_formatted = "".join(
-        [entry[0] + " " + entry[1].strip() for entry in remarks])
+    remark_formatted = "".join([entry[0] + " " + entry[1].strip() for entry in remarks])
     return remark_formatted
 
 
@@ -169,8 +168,7 @@ def ensure_space_comments(comments):
         ])
         >>>
     """
-    comment_objects = (
-        comment for comment_list in comments for comment in comment_list)
+    comment_objects = (comment for comment_list in comments for comment in comment_list)
     for comment in comment_objects:
         # Some comments are nested inside an additional list
         if not isinstance(comment, list):
@@ -317,13 +315,14 @@ def _textfsm_reslut_to_dict(header: list, reslut: list) -> List[Dict[str, str]]:
 
 def get_test_files(vender_os: str, command: str, index: int) -> Tuple[str, str]:
     """获取测试文件路径"""
-    base_name = vendor_os + '_' + command.replace(' ', '_')
+    base_name = vendor_os + "_" + command.replace(" ", "_")
 
     raw_base_name = base_name + str(index) if index > 1 else base_name
 
-    raw_file = os.path.join('tests', vendor_os,
-                            command.replace(' ', '_'), raw_base_name + '.raw')
-    template_file = os.path.join('ntc_templates', 'templates', base_name + '.textfsm')
+    raw_file = os.path.join(
+        "tests", vendor_os, command.replace(" ", "_"), raw_base_name + ".raw"
+    )
+    template_file = os.path.join("ntc_templates", "templates", base_name + ".textfsm")
     return (raw_file, template_file)
 
 
@@ -332,7 +331,7 @@ def main(vendor_os: str, command: str, index: int) -> List[Dict]:
     raw_file, template_file = get_test_files(vendor_os, command, index)
 
     template = TextFSM(open(template_file))
-    stream = open(raw_file, 'r').read()
+    stream = open(raw_file, "r").read()
 
     res = template.ParseText(stream)
 
@@ -347,37 +346,37 @@ def generate_file(vendor_os: str, command: str, index: int):
         # 创建raw文件夹
         if not os.path.exists(os.path.dirname(raw_file)):
             os.mkdir(os.path.dirname(raw_file))
-        open(raw_file, 'w').write('')
+        open(raw_file, "w").write("")
 
     if not os.path.exists(template_file):
-        open(template_file, 'w').write('')
+        open(template_file, "w").write("")
 
 
 def reg_blank_sub(file: str) -> str:
     """对文件进行空格替换"""
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         text = f.read()
 
     final_text = []
     for line in text.splitlines():
-        if not line.startswith('  ^'):
+        if not line.startswith("  ^"):
             final_text.append(line)
             continue
 
         line = line[2:]
-        end = ''
-        match_end = re.search(r'( -> .*)$', line)
+        end = ""
+        match_end = re.search(r"( -> .*)$", line)
         if match_end:
             end = match_end.group(1)
-            line = line[:-len(end)]
+            line = line[: -len(end)]
 
-        tmp = ' '.join(line.split())
-        tmp = tmp.replace(' ', '\s+')
+        tmp = " ".join(line.split())
+        tmp = tmp.replace(" ", "\s+")
         tmp = f"  {tmp}{end}"
         final_text.append(tmp)
 
-    with open(file, 'w') as f:
-        f.write('\n'.join(final_text))
+    with open(file, "w") as f:
+        f.write("\n".join(final_text))
 
 
 def print_index_file_command(vendor_os: str, command: str, index: int, short: str):
@@ -386,35 +385,32 @@ def print_index_file_command(vendor_os: str, command: str, index: int, short: st
     res_cmd = []
     cmd_e = command.split()
     for index, short_cmd_e in enumerate(short.split()):
-        last = cmd_e[index].replace(short_cmd_e, '')
-        if last == '':
+        last = cmd_e[index].replace(short_cmd_e, "")
+        if last == "":
             res_cmd.append(short_cmd_e)
         else:
             res_cmd.append(f"{short_cmd_e}\[\[{last}]]")
 
-    res_cmd = ' '.join(res_cmd)
+    res_cmd = " ".join(res_cmd)
     print()
     print(f"{os.path.basename(textfsm_file)}, .*, {vendor_os}, {res_cmd}")
     print()
 
 
 def parse_args():
-    parser = ArgumentParser(description='自动生成textfsm和所需raw文件, 方便对textfsm进行测试')
-    parser.add_argument('-v', '--vendor', help='设备厂商', required=False)
-    parser.add_argument('-c', '--command', help='设备命令', required=False)
-    parser.add_argument('-g', '--generate', help='生成测试文件', action='store_true')
-    parser.add_argument(
-        '-i', '--index', help='多raw文件的索引，从2开始', type=int, required=False)
-    parser.add_argument(
-        '-b', '--blank', help='对textfsm文件进行空格替换', action='store_true')
-    parser.add_argument('-t', '--test', help='对textfsm进行测试', action='store_true')
-    parser.add_argument('-y', '--yml', help='生成yml文件', action='store_true')
-    parser.add_argument(
-        '-s', '--short', help='通过短命令生成index文件需要的条目', action='store_true')
+    parser = ArgumentParser(description="自动生成textfsm和所需raw文件, 方便对textfsm进行测试")
+    parser.add_argument("-v", "--vendor", help="设备厂商", required=False)
+    parser.add_argument("-c", "--command", help="设备命令", required=False)
+    parser.add_argument("-g", "--generate", help="生成测试文件", action="store_true")
+    parser.add_argument("-i", "--index", help="多raw文件的索引，从2开始", type=int, required=False)
+    parser.add_argument("-b", "--blank", help="对textfsm文件进行空格替换", action="store_true")
+    parser.add_argument("-t", "--test", help="对textfsm进行测试", action="store_true")
+    parser.add_argument("-y", "--yml", help="生成yml文件", action="store_true")
+    parser.add_argument("-s", "--short", help="通过短命令生成index文件需要的条目", action="store_true")
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     args = parse_args()
 
@@ -439,23 +435,23 @@ if __name__ == '__main__':
         raw_file_dir = os.path.dirname(raw_file)
         raw_file_count = 0
         for file in os.listdir(raw_file_dir):
-            if file.endswith('.yml'):
+            if file.endswith(".yml"):
                 os.remove(os.path.join(raw_file_dir, file))
 
-            if file.endswith('.raw'):
+            if file.endswith(".raw"):
                 raw_file_count += 1
         for index in range(1, raw_file_count + 1):
             raw_file = get_test_files(vendor_os, command, index)[0]
             ret = main(vendor_os, command, index)
-            yml_file = raw_file.replace('raw', 'yml')
-            ensure_yaml_standards({'parsed_sample': ret}, yml_file)
+            yml_file = raw_file.replace("raw", "yml")
+            ensure_yaml_standards({"parsed_sample": ret}, yml_file)
             print("generate yml file:", yml_file)
 
         print(f"generate yml {index} file done")
         exit()
 
     if args.short:
-        short = input('input shortest cmd: ')
+        short = input("input shortest cmd: ")
         print_index_file_command(vendor_os, command, index, short)
         exit()
 
