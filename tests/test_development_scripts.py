@@ -1,5 +1,4 @@
 import os
-import glob
 from copy import deepcopy
 
 import pytest

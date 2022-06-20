@@ -371,7 +371,7 @@ def reg_blank_sub(file: str) -> str:
             line = line[: -len(end)]
 
         tmp = " ".join(line.split())
-        tmp = tmp.replace(" ", "\s+")
+        tmp = tmp.replace(" ", "\s+")  # noqa: W605
         tmp = f"  {tmp}{end}"
         final_text.append(tmp)
 
@@ -389,7 +389,7 @@ def print_index_file_command(vendor_os: str, command: str, index: int, short: st
         if last == "":
             res_cmd.append(short_cmd_e)
         else:
-            res_cmd.append(f"{short_cmd_e}\[\[{last}]]")
+            res_cmd.append(f"{short_cmd_e}\[\[{last}]]")  # noqa: W605
 
     res_cmd = " ".join(res_cmd)
     print()
