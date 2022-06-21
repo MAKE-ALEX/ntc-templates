@@ -34,7 +34,7 @@ def raw_template_test(raw_file):
     parts = os.path.normpath(raw_file).split(os.sep)
     platform = parts[1]
     command = " ".join(parts[2].split("_"))
-    with open(raw_file, "r") as data:
+    with open(raw_file, "r", encoding="utf8") as data:
         rawoutput = data.read()
     structured = parse_output(platform=platform, command=command, data=rawoutput)
     with open(parsed_file, "r") as data:
