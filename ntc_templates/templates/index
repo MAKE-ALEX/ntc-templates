@@ -523,6 +523,7 @@ ruckus_fastiron_show_arp.textfsm, .*, ruckus_fastiron, sh[[ow]] ar[[p]]
 
 ruijie_os_show_version_slots.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]] s[[lots]]
 ruijie_os_show_interfaces.textfsm, .*, ruijie_os, sh[[ow]] in[[terfaces]]
+ruijie_os_show_ntp_status.textfsm, .*, ruijie_os, sh[[ow]] ntp stat[[us]]
 ruijie_os_show_version.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]]
 ruijie_os_show_memory.textfsm, .*, ruijie_os, sh[[ow]] mem[[ory]]
 ruijie_os_show_power.textfsm, .*, ruijie_os, sh[[ow]] pow[[er]]
