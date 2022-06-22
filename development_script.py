@@ -403,7 +403,7 @@ def get_vendor_command_from_file_name(file_name: str) -> Tuple[str, str]:
     file_name = file_name.replace(".testfsm", "")
     split_list = file_name.split("_")
     vendor_os = "_".join(split_list[:2])
-    if not vendor_os in OS_CHOICES:
+    if vendor_os not in OS_CHOICES:
         raise ValueError(f"{vendor_os} is not a valid vendor_os")
 
     command = " ".join(split_list[2:])
