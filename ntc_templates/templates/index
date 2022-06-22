@@ -524,6 +524,7 @@ ruckus_fastiron_show_arp.textfsm, .*, ruckus_fastiron, sh[[ow]] ar[[p]]
 ruijie_os_show_version_slots.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]] s[[lots]]
 ruijie_os_show_version.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]]
 ruijie_os_show_memory.textfsm, .*, ruijie_os, sh[[ow]] mem[[ory]]
+ruijie_os_show_power.textfsm, .*, ruijie_os, sh[[ow]] pow[[er]]
 ruijie_os_show_cpu.textfsm, .*, ruijie_os, sh[[ow]] cpu
 
 ubiquiti_edgerouter_show_interfaces_ethernet_physical.textfsm, .*, ubiquiti_edgerouter, sh[[ow]] interfaces ethernet (\S+\s)?physical
