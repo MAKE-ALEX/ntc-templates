@@ -8,6 +8,7 @@ from rich import print
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import DoubleQuotedScalarString as DQ
 from textfsm import TextFSM
+from tests.test_index_order import OS_CHOICES
 
 YAML_OBJECT = YAML()
 YAML_OBJECT.explicit_start = True
@@ -397,10 +398,23 @@ def print_index_file_command(vendor_os: str, command: str, index: int, short: st
     print()
 
 
+def get_vendor_command_from_file_name(file_name: str) -> Tuple[str, str]:
+    """获取vendor_os和command"""
+    file_name = file_name.replace(".testfsm", "")
+    split_list = file_name.split("_")
+    vendor_os = "_".join(split_list[:2])
+    if not vendor_os in OS_CHOICES:
+        raise ValueError(f"{vendor_os} is not a valid vendor_os")
+
+    command = " ".join(split_list[2:])
+    return vendor_os, command
+
+
 def parse_args():
     parser = ArgumentParser(description="自动生成textfsm和所需raw文件, 方便对textfsm进行测试")
     parser.add_argument("-v", "--vendor", help="设备厂商", required=False)
     parser.add_argument("-c", "--command", help="设备命令", required=False)
+    parser.add_argument("-f", "--file", help="设备命令文件", required=False)
     parser.add_argument("-g", "--generate", help="生成测试文件", action="store_true")
     parser.add_argument("-i", "--index", help="多raw文件的索引，从2开始", type=int, required=False)
     parser.add_argument("-b", "--blank", help="对textfsm文件进行空格替换", action="store_true")
@@ -415,6 +429,9 @@ if __name__ == "__main__":
     args = parse_args()
 
     index = args.index or 1
+
+    if args.file:
+        vendor_os, command = get_vendor_command_from_file_name(args.file)
 
     if args.vendor:
         vendor_os = args.vendor
@@ -455,4 +472,5 @@ if __name__ == "__main__":
         print_index_file_command(vendor_os, command, index, short)
         exit()
 
-    main(vendor_os, command, index)
+    if args.test:
+        main(vendor_os, command, index)
