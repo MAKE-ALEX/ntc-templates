@@ -497,6 +497,7 @@ maipu_mypower_show_system_power.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] 
 maipu_mypower_show_cpu_monitor.textfsm, .*, maipu_mypower, sh[[ow]] cpu mon[[itor]]
 maipu_mypower_show_system_fan.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] fan
 maipu_mypower_show_version.textfsm, .*, maipu_mypower, sh[[ow]] ver[[sion]]
+maipu_mypower_show_memory.textfsm, .*, maipu_mypower, sh[[ow]] mem[[ory]]
 
 mikrotik_routeros_ip_firewall_filter_print_all_without-paging.textfsm, .*, mikrotik_routeros, [[/]]ip(v6)? firewall filter print all without-paging
 mikrotik_routeros_ip_dhcp-server_lease_print_without-paging.textfsm, .*, mikrotik_routeros, [[/]]ip dhcp-server lease print without-paging
