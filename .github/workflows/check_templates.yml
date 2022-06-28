@@ -3,7 +3,7 @@ name: Check Templates and Publish
 on:
   push:
     branches: [master, dev, test-me-*]
-    tag: [v*]
+    tags: [v*]
   pull_request:
 
 jobs:
