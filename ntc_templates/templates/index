@@ -489,8 +489,18 @@ juniper_screenos_get_route.textfsm, .*, juniper_screenos, get route
 
 linux_arp_-a.textfsm, .*, linux, arp -a
 
+maipu_mypower_show_interface_switchport_brief.textfsm, .*, maipu_mypower, sh[[ow]] int[[erface]] sw[[itchport]] b[[rief]]
+maipu_mypower_show_system_module_brief.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] mod[[ule]] b[[rief]]
+maipu_mypower_show_ip_interface_brief.textfsm, .*, maipu_mypower, sh[[ow]] ip int[[erface]] b[[rief]]
 maipu_mypower_show_system_chassis.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] cha[[ssis]]
+maipu_mypower_show_system_power.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] po[[wer]]
+maipu_mypower_show_cpu_monitor.textfsm, .*, maipu_mypower, sh[[ow]] cpu mon[[itor]]
+maipu_mypower_show_system_fan.textfsm, .*, maipu_mypower, sh[[ow]] sys[[tem]] fan
+maipu_mypower_show_interface.textfsm, .*, maipu_mypower, sh[[ow]] int[[erface]]
+maipu_mypower_show_ip_route.textfsm, .*, maipu_mypower, sh[[ow]] ip rout[[e]]
 maipu_mypower_show_version.textfsm, .*, maipu_mypower, sh[[ow]] ver[[sion]]
+maipu_mypower_show_memory.textfsm, .*, maipu_mypower, sh[[ow]] mem[[ory]]
+maipu_mypower_show_clock.textfsm, .*, maipu_mypower, sh[[ow]] clo[[ck]]
 
 mikrotik_routeros_ip_firewall_filter_print_all_without-paging.textfsm, .*, mikrotik_routeros, [[/]]ip(v6)? firewall filter print all without-paging
 mikrotik_routeros_ip_dhcp-server_lease_print_without-paging.textfsm, .*, mikrotik_routeros, [[/]]ip dhcp-server lease print without-paging
@@ -515,12 +525,19 @@ paloalto_panos_show_jobs_all.textfsm, .*, paloalto_panos, sh[[ow]] jo[[bs]] all
 paloalto_panos_show_arp_all.textfsm, .*, paloalto_panos, sh[[ow]] ar[[p]] all
 paloalto_panos_show_mac_all.textfsm, .*, paloalto_panos, sh[[ow]] mac all
 
-ruijie_os_show_version.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]]
 
 ruckus_fastiron_show_interfaces_brief.textfsm, .*, ruckus_fastiron, sh[[ow]] int[[erfaces]] b[[rief]]
 ruckus_fastiron_show_mac-address.textfsm, .*, ruckus_fastiron, sh[[ow]] mac[[-address]]
 ruckus_fastiron_show_version.textfsm, .*, ruckus_fastiron, sh[[ow]] v[[ersion]]
 ruckus_fastiron_show_arp.textfsm, .*, ruckus_fastiron, sh[[ow]] ar[[p]]
+
+ruijie_os_show_version_slots.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]] s[[lots]]
+ruijie_os_show_interfaces.textfsm, .*, ruijie_os, sh[[ow]] in[[terfaces]]
+ruijie_os_show_ntp_status.textfsm, .*, ruijie_os, sh[[ow]] ntp stat[[us]]
+ruijie_os_show_version.textfsm, .*, ruijie_os, sh[[ow]] ver[[sion]]
+ruijie_os_show_memory.textfsm, .*, ruijie_os, sh[[ow]] mem[[ory]]
+ruijie_os_show_power.textfsm, .*, ruijie_os, sh[[ow]] pow[[er]]
+ruijie_os_show_cpu.textfsm, .*, ruijie_os, sh[[ow]] cpu
 
 ubiquiti_edgerouter_show_interfaces_ethernet_physical.textfsm, .*, ubiquiti_edgerouter, sh[[ow]] interfaces ethernet (\S+\s)?physical
 ubiquiti_edgerouter_show_dhcp_leases.textfsm, .*, ubiquiti_edgerouter, sh[[ow]] dhcp leases

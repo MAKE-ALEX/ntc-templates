@@ -14,3 +14,4 @@ ignore: |
   .tox/
   .venv/
   venv/
+  .github/
